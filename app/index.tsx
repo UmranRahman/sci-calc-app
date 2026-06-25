@@ -1,4 +1,5 @@
-import { SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { useState } from "react";
+import { Pressable, SafeAreaView, StyleSheet, Text, View } from "react-native";
 
 const calculatorButtons = [
   ["C", "⌫", "%", "÷"],
@@ -9,19 +10,56 @@ const calculatorButtons = [
 ];
 
 export default function HomeScreen() {
+  const [displayValue, setDisplayValue] = useState("0");
+
+  function handleButtonPress(value: string) {
+    if (value === "") {
+      return;
+    }
+
+    if (value === "C") {
+      setDisplayValue("0");
+      return;
+    }
+
+    if (value === "⌫") {
+      setDisplayValue((currentValue) => {
+        if (currentValue.length === 1) {
+          return "0";
+        }
+
+        return currentValue.slice(0, -1);
+      });
+
+      return;
+    }
+
+    if (value === "=") {
+      return;
+    }
+
+    setDisplayValue((currentValue) => {
+      if (currentValue === "0") {
+        return value;
+      }
+
+      return currentValue + value;
+    });
+  }
+
   return (
     <SafeAreaView style={styles.screen}>
       <View style={styles.calculator}>
         <View style={styles.displayContainer}>
           <Text style={styles.appTitle}>Scientific Calculator</Text>
-          <Text style={styles.displayText}>0</Text>
+          <Text style={styles.displayText}>{displayValue}</Text>
         </View>
 
         <View style={styles.keypad}>
           {calculatorButtons.map((row, rowIndex) => (
             <View key={rowIndex} style={styles.buttonRow}>
               {row.map((buttonValue, buttonIndex) => (
-                <View
+                <Pressable
                   key={`${rowIndex}-${buttonIndex}`}
                   style={[
                     styles.button,
@@ -31,9 +69,11 @@ export default function HomeScreen() {
                     ["C", "⌫", "%"].includes(buttonValue) &&
                       styles.utilityButton,
                   ]}
+                  onPress={() => handleButtonPress(buttonValue)}
+                  disabled={buttonValue === ""}
                 >
                   <Text style={styles.buttonText}>{buttonValue}</Text>
-                </View>
+                </Pressable>
               ))}
             </View>
           ))}
