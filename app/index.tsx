@@ -1,3 +1,4 @@
+import { handleCalculatorInput, initialCalculatorState } from "@/src/features/calculator/calculatorEngine";
 import { useState } from "react";
 import { Pressable, SafeAreaView, StyleSheet, Text, View } from "react-native";
 
@@ -10,49 +11,20 @@ const calculatorButtons = [
 ];
 
 export default function HomeScreen() {
-  const [displayValue, setDisplayValue] = useState("0");
+  const [calculatorState, setCalculatorState] = useState(initialCalculatorState);
 
   function handleButtonPress(value: string) {
-    if (value === "") {
-      return;
-    }
-
-    if (value === "C") {
-      setDisplayValue("0");
-      return;
-    }
-
-    if (value === "⌫") {
-      setDisplayValue((currentValue) => {
-        if (currentValue.length === 1) {
-          return "0";
-        }
-
-        return currentValue.slice(0, -1);
-      });
-
-      return;
-    }
-
-    if (value === "=") {
-      return;
-    }
-
-    setDisplayValue((currentValue) => {
-      if (currentValue === "0") {
-        return value;
-      }
-
-      return currentValue + value;
-    });
-  }
+  setCalculatorState((currentState) =>
+    handleCalculatorInput(currentState, value)
+  );
+}
 
   return (
     <SafeAreaView style={styles.screen}>
       <View style={styles.calculator}>
         <View style={styles.displayContainer}>
           <Text style={styles.appTitle}>Scientific Calculator</Text>
-          <Text style={styles.displayText}>{displayValue}</Text>
+          <Text style={styles.displayText}>{calculatorState.displayValue}</Text>
         </View>
 
         <View style={styles.keypad}>
