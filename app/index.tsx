@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Pressable, SafeAreaView, StyleSheet, Text, View } from "react-native";
 
 const calculatorButtons = [
+  ["√", "x²", "", ""],
   ["C", "⌫", "%", "÷"],
   ["7", "8", "9", "×"],
   ["4", "5", "6", "−"],

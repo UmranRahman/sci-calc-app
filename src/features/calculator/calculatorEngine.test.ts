@@ -117,4 +117,28 @@ describe("calculator input handling", () => {
 
         expect(nextState.displayValue).toBe("7+");
     });
+
+    test("calculates square root", () => {
+        const state = { displayValue: "9" };
+
+        const nextState = handleCalculatorInput(state, "√");
+
+        expect(nextState.displayValue).toBe("3");
+    });
+
+    test("calculates square", () => {
+        const state = { displayValue: "5" };
+
+        const nextState = handleCalculatorInput(state, "x²");
+
+        expect(nextState.displayValue).toBe("25");
+    });
+
+    test("shows error for square root of negative number", () => {
+        const state = { displayValue: "-9" };
+
+        const nextState = handleCalculatorInput(state, "√");
+
+        expect(nextState.displayValue).toBe("Error");
+    });
 });

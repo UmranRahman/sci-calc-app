@@ -49,6 +49,28 @@ function calculateBasicExpression(expression: string): string {
         return parts[parts.length - 1];
     }
 
+    function calculateUnaryOperation(expression: string, operation: string): string {
+        const number = Number(expression);
+
+        if (Number.isNaN(number)) {
+            return expression;
+        }
+
+        switch (operation) {
+            case "√":
+            if (number < 0) {
+                return "Error";
+            }
+            return String(Math.sqrt(number));
+
+            case "x²":
+            return String(number * number);
+
+            default:
+            return expression;
+        }
+    }
+
     export function handleCalculatorInput(
     state: CalculatorState,
     value: string
@@ -93,6 +115,12 @@ function calculateBasicExpression(expression: string): string {
 
     if (value === "." && getCurrentNumber(state.displayValue).includes(".")) {
         return state;
+    }
+
+    if (value === "√" || value === "x²") {
+        return {
+            displayValue: calculateUnaryOperation(state.displayValue, value),
+        };
     }
 
     return {
