@@ -45,4 +45,44 @@ describe("calculator input handling", () => {
 
         expect(nextState.displayValue).toBe("0");
     });
+
+    test("calculates addition when equals is pressed", () => {
+        const state = { displayValue: "2+3" };
+
+        const nextState = handleCalculatorInput(state, "=");
+
+        expect(nextState.displayValue).toBe("5");
+    });
+
+    test("calculates subtraction when equals is pressed", () => {
+        const state = { displayValue: "9−4" };
+
+        const nextState = handleCalculatorInput(state, "=");
+
+        expect(nextState.displayValue).toBe("5");
+    });
+
+    test("calculates multiplication when equals is pressed", () => {
+        const state = { displayValue: "6×7" };
+
+        const nextState = handleCalculatorInput(state, "=");
+
+        expect(nextState.displayValue).toBe("42");
+    });
+
+    test("calculates division when equals is pressed", () => {
+        const state = { displayValue: "8÷2" };
+
+        const nextState = handleCalculatorInput(state, "=");
+
+        expect(nextState.displayValue).toBe("4");
+    });
+
+    test("shows error when dividing by zero", () => {
+        const state = { displayValue: "8÷0" };
+
+        const nextState = handleCalculatorInput(state, "=");
+
+        expect(nextState.displayValue).toBe("Error");
+    });
 });
