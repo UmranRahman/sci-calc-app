@@ -40,6 +40,15 @@ function calculateBasicExpression(expression: string): string {
     return String(result);
     }
 
+    function isOperator(value: string): boolean {
+        return ["+", "−", "×", "÷"].includes(value);
+    }
+
+    function getCurrentNumber(expression: string): string {
+        const parts = expression.split(/[+−×÷]/);
+        return parts[parts.length - 1];
+    }
+
     export function handleCalculatorInput(
     state: CalculatorState,
     value: string
@@ -72,6 +81,18 @@ function calculateBasicExpression(expression: string): string {
         return {
         displayValue: value,
         };
+    }
+
+    const lastCharacter = state.displayValue[state.displayValue.length - 1];
+
+    if (isOperator(value) && isOperator(lastCharacter)) {
+        return {
+        displayValue: state.displayValue.slice(0, -1) + value,
+        };
+    }
+
+    if (value === "." && getCurrentNumber(state.displayValue).includes(".")) {
+        return state;
     }
 
     return {

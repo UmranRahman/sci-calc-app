@@ -85,4 +85,36 @@ describe("calculator input handling", () => {
 
         expect(nextState.displayValue).toBe("Error");
     });
+
+    test("does not allow two operators in a row", () => {
+        const state = { displayValue: "2+" };
+
+        const nextState = handleCalculatorInput(state, "×");
+
+        expect(nextState.displayValue).toBe("2×");
+    });
+
+    test("does not allow multiple decimals in the same number", () => {
+        const state = { displayValue: "7.5" };
+
+        const nextState = handleCalculatorInput(state, ".");
+
+        expect(nextState.displayValue).toBe("7.5");
+    });
+
+    test("allows decimal in the second number", () => {
+        const state = { displayValue: "7+2" };
+
+        const nextState = handleCalculatorInput(state, ".");
+
+        expect(nextState.displayValue).toBe("7+2.");
+    });
+
+    test("does not calculate incomplete expression", () => {
+        const state = { displayValue: "7+" };
+
+        const nextState = handleCalculatorInput(state, "=");
+
+        expect(nextState.displayValue).toBe("7+");
+    });
 });
