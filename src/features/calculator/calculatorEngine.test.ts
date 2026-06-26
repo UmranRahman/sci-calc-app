@@ -153,4 +153,28 @@ describe("calculator input handling", () => {
 
         expect(nextState.displayValue).toBe(String(Math.E));
     });
+
+    test("calculates sine in degrees", () => {
+        const state = { displayValue: "30" };
+
+        const nextState = handleCalculatorInput(state, "sin");
+
+        expect(nextState.displayValue).toBe("0.5");
+    });
+
+    test("calculates cosine in degrees", () => {
+        const state = { displayValue: "60" };
+
+        const nextState = handleCalculatorInput(state, "cos");
+
+        expect(nextState.displayValue).toBe("0.5");
+    });
+
+    test("calculates tangent in degrees", () => {
+        const state = { displayValue: "45" };
+
+        const nextState = handleCalculatorInput(state, "tan");
+
+        expect(nextState.displayValue).toBe("1");
+    });
 });

@@ -49,6 +49,14 @@ function calculateBasicExpression(expression: string): string {
         return parts[parts.length - 1];
     }
 
+    function roundResult(value: number): string {
+        return String(Number(value.toFixed(10)));
+    }
+
+    function degreesToRadians(degrees: number): number {
+        return degrees * (Math.PI / 180);
+    }
+
     function calculateUnaryOperation(expression: string, operation: string): string {
         const number = Number(expression);
 
@@ -58,85 +66,94 @@ function calculateBasicExpression(expression: string): string {
 
         switch (operation) {
             case "√":
-            if (number < 0) {
-                return "Error";
-            }
-            return String(Math.sqrt(number));
+                if (number < 0) {
+                    return "Error";
+                }
+                return String(Math.sqrt(number));
 
             case "x²":
-            return String(number * number);
+                return String(number * number);
+
+            case "sin":
+                return roundResult(Math.sin(degreesToRadians(number)));
+
+            case "cos":
+                return roundResult(Math.cos(degreesToRadians(number)));
+
+            case "tan":
+                return roundResult(Math.tan(degreesToRadians(number)));
 
             default:
-            return expression;
+                return expression;
         }
     }
 
     export function handleCalculatorInput(
-    state: CalculatorState,
-    value: string
+        state: CalculatorState,
+        value: string
     ): CalculatorState {
-    if (value === "") {
-        return state;
-    }
-
-    if (value === "C") {
-        return initialCalculatorState;
-    }
-
-    if (value === "⌫") {
-        if (state.displayValue.length === 1 || state.displayValue === "Error") {
-        return initialCalculatorState;
+        if (value === "") {
+            return state;
         }
 
+        if (value === "C") {
+            return initialCalculatorState;
+        }
+
+        if (value === "⌫") {
+            if (state.displayValue.length === 1 || state.displayValue === "Error") {
+            return initialCalculatorState;
+            }
+
+            return {
+            displayValue: state.displayValue.slice(0, -1),
+            };
+        }
+
+        if (value === "=") {
+            return {
+            displayValue: calculateBasicExpression(state.displayValue),
+            };
+        }
+
+        if (value === "√" || value === "x²" || value === "sin" || value === "cos" || value === "tan") {
+            return {
+                displayValue: calculateUnaryOperation(state.displayValue, value),
+            };
+        }
+
+        if (value === "π") {
+            return {
+                displayValue: String(Math.PI),
+            };
+        }
+
+        if (value === "e") {
+            return {
+                displayValue: String(Math.E),
+            };
+        }
+
+        if (state.displayValue === "0" || state.displayValue === "Error") {
+            return {
+            displayValue: value,
+            };
+        }
+
+        const lastCharacter = state.displayValue[state.displayValue.length - 1];
+
+        if (isOperator(value) && isOperator(lastCharacter)) {
+            return {
+            displayValue: state.displayValue.slice(0, -1) + value,
+            };
+        }
+
+        if (value === "." && getCurrentNumber(state.displayValue).includes(".")) {
+            return state;
+        }
+
+
         return {
-        displayValue: state.displayValue.slice(0, -1),
+            displayValue: state.displayValue + value,
         };
-    }
-
-    if (value === "=") {
-        return {
-        displayValue: calculateBasicExpression(state.displayValue),
-        };
-    }
-
-    if (value === "√" || value === "x²") {
-        return {
-            displayValue: calculateUnaryOperation(state.displayValue, value),
-        };
-    }
-
-    if (value === "π") {
-        return {
-            displayValue: String(Math.PI),
-        };
-    }
-
-    if (value === "e") {
-        return {
-            displayValue: String(Math.E),
-        };
-    }
-
-    if (state.displayValue === "0" || state.displayValue === "Error") {
-        return {
-        displayValue: value,
-        };
-    }
-
-    const lastCharacter = state.displayValue[state.displayValue.length - 1];
-
-    if (isOperator(value) && isOperator(lastCharacter)) {
-        return {
-        displayValue: state.displayValue.slice(0, -1) + value,
-        };
-    }
-
-    if (value === "." && getCurrentNumber(state.displayValue).includes(".")) {
-        return state;
-    }
-
-
-    return {
-        displayValue: state.displayValue + value,
-    };
     }
