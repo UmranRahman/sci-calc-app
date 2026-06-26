@@ -177,4 +177,36 @@ describe("calculator input handling", () => {
 
         expect(nextState.displayValue).toBe("1");
     });
+
+    test("calculates base-10 logarithm", () => {
+        const state = { displayValue: "100" };
+
+        const nextState = handleCalculatorInput(state, "log");
+
+        expect(nextState.displayValue).toBe("2");
+    });
+
+    test("calculates natural logarithm", () => {
+        const state = { displayValue: String(Math.E) };
+
+        const nextState = handleCalculatorInput(state, "ln");
+
+        expect(nextState.displayValue).toBe("1");
+    });
+
+    test("shows error for log of zero", () => {
+        const state = { displayValue: "0" };
+
+        const nextState = handleCalculatorInput(state, "log");
+
+        expect(nextState.displayValue).toBe("Error");
+    });
+
+    test("shows error for ln of negative number", () => {
+        const state = { displayValue: "-5" };
+
+        const nextState = handleCalculatorInput(state, "ln");
+
+        expect(nextState.displayValue).toBe("Error");
+    });
 });

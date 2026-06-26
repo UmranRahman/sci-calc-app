@@ -19,22 +19,22 @@ function calculateBasicExpression(expression: string): string {
 
     switch (operator) {
         case "+":
-        result = leftNumber + rightNumber;
-        break;
+            result = leftNumber + rightNumber;
+            break;
         case "−":
-        result = leftNumber - rightNumber;
-        break;
+            result = leftNumber - rightNumber;
+            break;
         case "×":
-        result = leftNumber * rightNumber;
-        break;
+            result = leftNumber * rightNumber;
+            break;
         case "÷":
-        if (rightNumber === 0) {
-            return "Error";
-        }
-        result = leftNumber / rightNumber;
-        break;
+            if (rightNumber === 0) {
+                return "Error";
+            }
+            result = leftNumber / rightNumber;
+            break;
         default:
-        return expression;
+            return expression;
     }
 
     return String(result);
@@ -83,6 +83,17 @@ function calculateBasicExpression(expression: string): string {
             case "tan":
                 return roundResult(Math.tan(degreesToRadians(number)));
 
+            case "log":
+                if (number <= 0) {
+                    return "Error";
+                }
+                return roundResult(Math.log10(number));
+
+            case "ln":
+                if (number <= 0) {
+                    return "Error";
+                }
+                return roundResult(Math.log(number));
             default:
                 return expression;
         }
@@ -116,7 +127,15 @@ function calculateBasicExpression(expression: string): string {
             };
         }
 
-        if (value === "√" || value === "x²" || value === "sin" || value === "cos" || value === "tan") {
+        if (
+            value === "√" ||
+            value === "x²" ||
+            value === "sin" ||
+            value === "cos" ||
+            value === "tan" ||
+            value === "log" ||
+            value === "ln"
+        ) {
             return {
                 displayValue: calculateUnaryOperation(state.displayValue, value),
             };

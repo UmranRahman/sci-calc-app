@@ -3,13 +3,13 @@ import { useState } from "react";
 import { Pressable, SafeAreaView, StyleSheet, Text, View } from "react-native";
 
 const calculatorButtons = [
-  ["sin", "cos", "tan", ""],
-  ["√", "x²", "π", "e"],
-  ["C", "⌫", "%", "÷"],
-  ["7", "8", "9", "×"],
-  ["4", "5", "6", "−"],
-  ["1", "2", "3", "+"],
-  ["0", ".", "=", ""],
+  ["sin", "cos", "tan", "log"],
+  ["ln", "√", "x²", ""],
+  ["π", "e", "C", "⌫"],
+  ["7", "8", "9", "÷"],
+  ["4", "5", "6", "×"],
+  ["1", "2", "3", "−"],
+  ["0", ".", "=", "+"],
 ];
 
 export default function HomeScreen() {
