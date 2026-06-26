@@ -141,4 +141,16 @@ describe("calculator input handling", () => {
 
         expect(nextState.displayValue).toBe("Error");
     });
+
+    test("enters pi constant", () => {
+        const nextState = handleCalculatorInput(initialCalculatorState, "π");
+
+        expect(nextState.displayValue).toBe(String(Math.PI));
+    });
+
+    test("enters e constant", () => {
+        const nextState = handleCalculatorInput(initialCalculatorState, "e");
+
+        expect(nextState.displayValue).toBe(String(Math.E));
+    });
 });

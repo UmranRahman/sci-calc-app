@@ -99,6 +99,24 @@ function calculateBasicExpression(expression: string): string {
         };
     }
 
+    if (value === "√" || value === "x²") {
+        return {
+            displayValue: calculateUnaryOperation(state.displayValue, value),
+        };
+    }
+
+    if (value === "π") {
+        return {
+            displayValue: String(Math.PI),
+        };
+    }
+
+    if (value === "e") {
+        return {
+            displayValue: String(Math.E),
+        };
+    }
+
     if (state.displayValue === "0" || state.displayValue === "Error") {
         return {
         displayValue: value,
@@ -117,11 +135,6 @@ function calculateBasicExpression(expression: string): string {
         return state;
     }
 
-    if (value === "√" || value === "x²") {
-        return {
-            displayValue: calculateUnaryOperation(state.displayValue, value),
-        };
-    }
 
     return {
         displayValue: state.displayValue + value,
