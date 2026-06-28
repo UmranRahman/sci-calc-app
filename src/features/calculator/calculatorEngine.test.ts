@@ -2,10 +2,19 @@ import {
     handleCalculatorInput,
     initialCalculatorState,
 } from "./calculatorEngine";
+import { CalculatorState } from "./calculatorTypes";
+
+function createState(displayValue: string): CalculatorState {
+    return {
+        displayValue,
+        history: [],
+    };
+}
 
 describe("calculator input handling", () => {
     test("starts with zero on the display", () => {
         expect(initialCalculatorState.displayValue).toBe("0");
+        expect(initialCalculatorState.history).toEqual([]);
     });
 
     test("replaces zero when entering the first number", () => {
@@ -15,7 +24,7 @@ describe("calculator input handling", () => {
     });
 
     test("appends numbers to the display", () => {
-        const state = { displayValue: "7" };
+        const state = createState("7");
 
         const nextState = handleCalculatorInput(state, "5");
 
@@ -23,15 +32,16 @@ describe("calculator input handling", () => {
     });
 
     test("clears the display", () => {
-        const state = { displayValue: "123" };
+        const state = createState("123");
 
         const nextState = handleCalculatorInput(state, "C");
 
         expect(nextState.displayValue).toBe("0");
+        expect(nextState.history).toEqual([]);
     });
 
     test("removes the last character with backspace", () => {
-        const state = { displayValue: "123" };
+        const state = createState("123");
 
         const nextState = handleCalculatorInput(state, "⌫");
 
@@ -39,7 +49,7 @@ describe("calculator input handling", () => {
     });
 
     test("backspace resets to zero when one character remains", () => {
-        const state = { displayValue: "7" };
+        const state = createState("7");
 
         const nextState = handleCalculatorInput(state, "⌫");
 
@@ -47,7 +57,7 @@ describe("calculator input handling", () => {
     });
 
     test("calculates addition when equals is pressed", () => {
-        const state = { displayValue: "2+3" };
+        const state = createState("2+3");
 
         const nextState = handleCalculatorInput(state, "=");
 
@@ -55,7 +65,7 @@ describe("calculator input handling", () => {
     });
 
     test("calculates subtraction when equals is pressed", () => {
-        const state = { displayValue: "9−4" };
+        const state = createState("9−4");
 
         const nextState = handleCalculatorInput(state, "=");
 
@@ -63,7 +73,7 @@ describe("calculator input handling", () => {
     });
 
     test("calculates multiplication when equals is pressed", () => {
-        const state = { displayValue: "6×7" };
+        const state = createState("6×7");
 
         const nextState = handleCalculatorInput(state, "=");
 
@@ -71,7 +81,7 @@ describe("calculator input handling", () => {
     });
 
     test("calculates division when equals is pressed", () => {
-        const state = { displayValue: "8÷2" };
+        const state = createState("8÷2");
 
         const nextState = handleCalculatorInput(state, "=");
 
@@ -79,7 +89,7 @@ describe("calculator input handling", () => {
     });
 
     test("shows error when dividing by zero", () => {
-        const state = { displayValue: "8÷0" };
+        const state = createState("8÷0");
 
         const nextState = handleCalculatorInput(state, "=");
 
@@ -87,7 +97,7 @@ describe("calculator input handling", () => {
     });
 
     test("does not allow two operators in a row", () => {
-        const state = { displayValue: "2+" };
+        const state = createState("2+");
 
         const nextState = handleCalculatorInput(state, "×");
 
@@ -95,7 +105,7 @@ describe("calculator input handling", () => {
     });
 
     test("does not allow multiple decimals in the same number", () => {
-        const state = { displayValue: "7.5" };
+        const state = createState("7.5");
 
         const nextState = handleCalculatorInput(state, ".");
 
@@ -103,7 +113,7 @@ describe("calculator input handling", () => {
     });
 
     test("allows decimal in the second number", () => {
-        const state = { displayValue: "7+2" };
+        const state = createState("7+2");
 
         const nextState = handleCalculatorInput(state, ".");
 
@@ -111,7 +121,7 @@ describe("calculator input handling", () => {
     });
 
     test("does not calculate incomplete expression", () => {
-        const state = { displayValue: "7+" };
+        const state = createState("7+");
 
         const nextState = handleCalculatorInput(state, "=");
 
@@ -119,7 +129,7 @@ describe("calculator input handling", () => {
     });
 
     test("calculates square root", () => {
-        const state = { displayValue: "9" };
+        const state = createState("9");
 
         const nextState = handleCalculatorInput(state, "√");
 
@@ -127,7 +137,7 @@ describe("calculator input handling", () => {
     });
 
     test("calculates square", () => {
-        const state = { displayValue: "5" };
+        const state = createState("5");
 
         const nextState = handleCalculatorInput(state, "x²");
 
@@ -135,7 +145,7 @@ describe("calculator input handling", () => {
     });
 
     test("shows error for square root of negative number", () => {
-        const state = { displayValue: "-9" };
+        const state = createState("-9");
 
         const nextState = handleCalculatorInput(state, "√");
 
@@ -143,7 +153,7 @@ describe("calculator input handling", () => {
     });
 
     test("calculates sine in degrees", () => {
-        const state = { displayValue: "30" };
+        const state = createState("30");
 
         const nextState = handleCalculatorInput(state, "sin");
 
@@ -151,7 +161,7 @@ describe("calculator input handling", () => {
     });
 
     test("calculates cosine in degrees", () => {
-        const state = { displayValue: "60" };
+        const state = createState("60");
 
         const nextState = handleCalculatorInput(state, "cos");
 
@@ -159,7 +169,7 @@ describe("calculator input handling", () => {
     });
 
     test("calculates tangent in degrees", () => {
-        const state = { displayValue: "45" };
+        const state = createState("45");
 
         const nextState = handleCalculatorInput(state, "tan");
 
@@ -167,7 +177,7 @@ describe("calculator input handling", () => {
     });
 
     test("calculates base-10 logarithm", () => {
-        const state = { displayValue: "100" };
+        const state = createState("100");
 
         const nextState = handleCalculatorInput(state, "log");
 
@@ -175,7 +185,7 @@ describe("calculator input handling", () => {
     });
 
     test("calculates natural logarithm", () => {
-        const state = { displayValue: String(Math.E) };
+        const state = createState(String(Math.E));
 
         const nextState = handleCalculatorInput(state, "ln");
 
@@ -183,7 +193,7 @@ describe("calculator input handling", () => {
     });
 
     test("shows error for log of zero", () => {
-        const state = { displayValue: "0" };
+        const state = createState("0");
 
         const nextState = handleCalculatorInput(state, "log");
 
@@ -191,7 +201,7 @@ describe("calculator input handling", () => {
     });
 
     test("shows error for ln of negative number", () => {
-        const state = { displayValue: "-5" };
+        const state = createState("-5");
 
         const nextState = handleCalculatorInput(state, "ln");
 
@@ -199,7 +209,7 @@ describe("calculator input handling", () => {
     });
 
     test("formats repeating decimal results", () => {
-        const state = { displayValue: "10÷3" };
+        const state = createState("10÷3");
 
         const nextState = handleCalculatorInput(state, "=");
 
@@ -216,5 +226,51 @@ describe("calculator input handling", () => {
         const nextState = handleCalculatorInput(initialCalculatorState, "e");
 
         expect(nextState.displayValue).toBe("2.7182818285");
+    });
+
+    test("adds calculation to history when equals is pressed", () => {
+        const state = createState("2+3");
+
+        const nextState = handleCalculatorInput(state, "=");
+
+        expect(nextState.history[0]).toEqual({
+        expression: "2+3",
+        result: "5",
+        });
+    });
+
+    test("adds unary operation to history", () => {
+        const state = createState("9");
+
+        const nextState = handleCalculatorInput(state, "√");
+
+        expect(nextState.history[0]).toEqual({
+        expression: "√(9)",
+        result: "3",
+        });
+    });
+
+    test("keeps newest history item first", () => {
+        const state: CalculatorState = {
+        displayValue: "4+4",
+        history: [
+            {
+            expression: "2+3",
+            result: "5",
+            },
+        ],
+        };
+
+        const nextState = handleCalculatorInput(state, "=");
+
+        expect(nextState.history[0]).toEqual({
+        expression: "4+4",
+        result: "8",
+        });
+
+        expect(nextState.history[1]).toEqual({
+        expression: "2+3",
+        result: "5",
+        });
     });
 });

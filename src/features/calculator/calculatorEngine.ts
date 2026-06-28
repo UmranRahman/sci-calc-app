@@ -2,6 +2,7 @@ import { CalculatorState } from "./calculatorTypes";
 
 export const initialCalculatorState: CalculatorState = {
     displayValue: "0",
+    history: [],
 };
 
 function calculateBasicExpression(expression: string): string {
@@ -63,6 +64,25 @@ function calculateBasicExpression(expression: string): string {
         return degrees * (Math.PI / 180);
     }
 
+    
+    function addHistoryItem(
+        state: CalculatorState,
+        expression: string,
+        result: string
+        ): CalculatorState {
+        return {
+            displayValue: result,
+            history: [
+            {
+                expression,
+                result,
+            },
+            ...state.history,
+            ].slice(0, 10),
+        };
+    }
+
+
     function calculateUnaryOperation(expression: string, operation: string): string {
         const number = Number(expression);
 
@@ -105,6 +125,8 @@ function calculateBasicExpression(expression: string): string {
         }
     }
 
+    
+
     export function handleCalculatorInput(
         state: CalculatorState,
         value: string
@@ -124,13 +146,18 @@ function calculateBasicExpression(expression: string): string {
 
             return {
             displayValue: state.displayValue.slice(0, -1),
+            history: state.history,
             };
         }
 
         if (value === "=") {
-            return {
-            displayValue: calculateBasicExpression(state.displayValue),
-            };
+            const result = calculateBasicExpression(state.displayValue);
+
+            if (result === state.displayValue) {
+                return state;
+            }
+
+            return addHistoryItem(state, state.displayValue, result);
         }
 
         if (
@@ -142,26 +169,33 @@ function calculateBasicExpression(expression: string): string {
             value === "log" ||
             value === "ln"
         ) {
-            return {
-                displayValue: calculateUnaryOperation(state.displayValue, value),
-            };
-        }
+            const result = calculateUnaryOperation(state.displayValue, value);
+
+            if (result === state.displayValue) {
+                return state;
+            }
+
+            return addHistoryItem(state, `${value}(${state.displayValue})`, result);
+            }
 
         if (value === "π") {
             return {
-                displayValue: formatResult(Math.PI)
+                displayValue: formatResult(Math.PI),
+                history: state.history,
             };
         }
 
         if (value === "e") {
             return {
                 displayValue: formatResult(Math.E),
+                history: state.history,
             };
         }
 
         if (state.displayValue === "0" || state.displayValue === "Error") {
             return {
-            displayValue: value,
+                displayValue: value,
+                history: state.history,
             };
         }
 
@@ -169,7 +203,8 @@ function calculateBasicExpression(expression: string): string {
 
         if (isOperator(value) && isOperator(lastCharacter)) {
             return {
-            displayValue: state.displayValue.slice(0, -1) + value,
+                displayValue: state.displayValue.slice(0, -1) + value,
+                history: state.history,
             };
         }
 
@@ -180,5 +215,6 @@ function calculateBasicExpression(expression: string): string {
 
         return {
             displayValue: state.displayValue + value,
+            history: state.history,
         };
     }
