@@ -136,7 +136,10 @@ function calculateBasicExpression(expression: string): string {
         }
 
         if (value === "C") {
-            return initialCalculatorState;
+            return {
+                displayValue: "0",
+                history: state.history,
+            };
         }
 
         if (value === "⌫") {
