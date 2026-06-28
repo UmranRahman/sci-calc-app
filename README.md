@@ -1,50 +1,105 @@
-# Welcome to your Expo app 👋
+# sci-calc-app
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A retro handheld-inspired scientific calculator built with React Native, Expo, and TypeScript.
 
-## Get started
+The app includes a custom calculator interface, scientific functions, calculation history, input validation, and a tested calculator engine separated from the UI.
 
-1. Install dependencies
+## Features
 
-   ```bash
-   npm install
-   ```
+* Basic arithmetic: addition, subtraction, multiplication, and division
+* Scientific functions:
 
-2. Start the app
+  * Square root
+  * Square
+  * Sine, cosine, and tangent
+  * Base-10 logarithm
+  * Natural logarithm
+* Constants:
 
-   ```bash
-   npx expo start
-   ```
+  * π
+  * e
+* Degree-based trigonometric calculations
+* Input validation for repeated operators and decimals
+* Error handling for invalid calculations such as division by zero
+* Formatted decimal results
+* Calculation history
+* Component-based React Native UI
+* Unit-tested calculator logic with Jest
 
-In the output, you'll find options to open the app in a
+## Tech Stack
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+* React Native
+* Expo
+* TypeScript
+* Jest
+* Git/GitHub
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Project Structure
 
-## Get a fresh project
+```text
+app/
+  index.tsx
 
-When you're ready, run:
+src/
+  components/
+    calculator/
+      CalculatorButton.tsx
+      CalculatorDisplay.tsx
+      CalculatorHistory.tsx
+      CalculatorKeypad.tsx
 
-```bash
-npm run reset-project
+  features/
+    calculator/
+      calculatorEngine.ts
+      calculatorEngine.test.ts
+      calculatorTypes.ts
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Getting Started
 
-## Learn more
+Install dependencies:
 
-To learn more about developing your project with Expo, look at the following resources:
+```bash
+npm install
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+Start the Expo development server:
 
-## Join the community
+```bash
+npx expo start
+```
 
-Join our community of developers creating universal apps.
+Run the test suite:
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+```bash
+npm test
+```
+
+## Testing
+
+The calculator engine is separated from the UI and tested independently. The Jest test suite covers:
+
+* Initial calculator state
+* Number input
+* Clearing and backspace behavior
+* Arithmetic operations
+* Scientific functions
+* Constants
+* Decimal formatting
+* Invalid input handling
+* Calculation history
+
+## Current Status
+
+This project is a functional MVP scientific calculator. The main calculator logic, UI, history feature, and tests are complete.
+
+## Future Improvements
+
+* Add DEG/RAD mode toggle
+* Add exponent operations such as xʸ
+* Add eˣ and 10ˣ functions
+* Add nth-root support
+* Add fraction mode
+* Add UI animations
+* Add screenshots to the README
+* Build an Android APK using EAS Build
