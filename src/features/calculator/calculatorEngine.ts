@@ -37,7 +37,7 @@ function calculateBasicExpression(expression: string): string {
             return expression;
     }
 
-    return String(result);
+    return formatResult(result);
     }
 
     function isOperator(value: string): boolean {
@@ -49,8 +49,14 @@ function calculateBasicExpression(expression: string): string {
         return parts[parts.length - 1];
     }
 
-    function roundResult(value: number): string {
-        return String(Number(value.toFixed(10)));
+    function formatResult(value: number): string {
+        if (!Number.isFinite(value)) {
+            return "Error";
+        }
+
+        const roundedValue = Number(value.toFixed(10));
+
+        return String(roundedValue);
     }
 
     function degreesToRadians(degrees: number): number {
@@ -69,31 +75,31 @@ function calculateBasicExpression(expression: string): string {
                 if (number < 0) {
                     return "Error";
                 }
-                return String(Math.sqrt(number));
+                return formatResult(Math.sqrt(number));
 
             case "x²":
-                return String(number * number);
+                return formatResult(number * number);
 
             case "sin":
-                return roundResult(Math.sin(degreesToRadians(number)));
+                return formatResult(Math.sin(degreesToRadians(number)));
 
             case "cos":
-                return roundResult(Math.cos(degreesToRadians(number)));
+                return formatResult(Math.cos(degreesToRadians(number)));
 
             case "tan":
-                return roundResult(Math.tan(degreesToRadians(number)));
+                return formatResult(Math.tan(degreesToRadians(number)));
 
             case "log":
                 if (number <= 0) {
                     return "Error";
                 }
-                return roundResult(Math.log10(number));
+                return formatResult(Math.log10(number));
 
             case "ln":
                 if (number <= 0) {
                     return "Error";
                 }
-                return roundResult(Math.log(number));
+                return formatResult(Math.log(number));
             default:
                 return expression;
         }
@@ -143,13 +149,13 @@ function calculateBasicExpression(expression: string): string {
 
         if (value === "π") {
             return {
-                displayValue: String(Math.PI),
+                displayValue: formatResult(Math.PI)
             };
         }
 
         if (value === "e") {
             return {
-                displayValue: String(Math.E),
+                displayValue: formatResult(Math.E),
             };
         }
 

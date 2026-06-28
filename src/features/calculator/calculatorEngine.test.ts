@@ -142,18 +142,6 @@ describe("calculator input handling", () => {
         expect(nextState.displayValue).toBe("Error");
     });
 
-    test("enters pi constant", () => {
-        const nextState = handleCalculatorInput(initialCalculatorState, "π");
-
-        expect(nextState.displayValue).toBe(String(Math.PI));
-    });
-
-    test("enters e constant", () => {
-        const nextState = handleCalculatorInput(initialCalculatorState, "e");
-
-        expect(nextState.displayValue).toBe(String(Math.E));
-    });
-
     test("calculates sine in degrees", () => {
         const state = { displayValue: "30" };
 
@@ -208,5 +196,25 @@ describe("calculator input handling", () => {
         const nextState = handleCalculatorInput(state, "ln");
 
         expect(nextState.displayValue).toBe("Error");
+    });
+
+    test("formats repeating decimal results", () => {
+        const state = { displayValue: "10÷3" };
+
+        const nextState = handleCalculatorInput(state, "=");
+
+        expect(nextState.displayValue).toBe("3.3333333333");
+    });
+
+    test("formats pi constant", () => {
+        const nextState = handleCalculatorInput(initialCalculatorState, "π");
+
+        expect(nextState.displayValue).toBe("3.1415926536");
+    });
+
+    test("formats e constant", () => {
+        const nextState = handleCalculatorInput(initialCalculatorState, "e");
+
+        expect(nextState.displayValue).toBe("2.7182818285");
     });
 });
