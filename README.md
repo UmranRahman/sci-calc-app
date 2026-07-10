@@ -2,7 +2,11 @@
 
 A retro handheld-inspired scientific calculator built with React Native, Expo, and TypeScript.
 
-The app includes a custom calculator interface, scientific functions, calculation history, input validation, and a tested calculator engine separated from the UI.
+The app includes a custom calculator interface, scientific functions, calculation history, input validation, reusable UI components, and a tested calculator engine separated from the interface.
+
+## Screenshot
+
+![DexCalc main screen](./assets/screenshots/DexCalc_Main_Screen.jpeg)
 
 ## Features
 
@@ -20,11 +24,12 @@ The app includes a custom calculator interface, scientific functions, calculatio
   * e
 * Degree-based trigonometric calculations
 * Input validation for repeated operators and decimals
-* Error handling for invalid calculations such as division by zero
+* Error handling for invalid calculations such as division by zero and invalid logarithms
 * Formatted decimal results
 * Calculation history
 * Component-based React Native UI
 * Unit-tested calculator logic with Jest
+* Android APK build configured with EAS Build
 
 ## Tech Stack
 
@@ -32,6 +37,7 @@ The app includes a custom calculator interface, scientific functions, calculatio
 * Expo
 * TypeScript
 * Jest
+* EAS Build
 * Git/GitHub
 
 ## Project Structure
@@ -39,6 +45,11 @@ The app includes a custom calculator interface, scientific functions, calculatio
 ```text
 app/
   index.tsx
+  _layout.tsx
+
+assets/
+  screenshots/
+    DexCalc_Main_Screen.jpeg
 
 src/
   components/
@@ -75,6 +86,12 @@ Run the test suite:
 npm test
 ```
 
+Build an Android APK:
+
+```bash
+npm run build:android:apk
+```
+
 ## Testing
 
 The calculator engine is separated from the UI and tested independently. The Jest test suite covers:
@@ -89,9 +106,21 @@ The calculator engine is separated from the UI and tested independently. The Jes
 * Invalid input handling
 * Calculation history
 
+## Android APK Build
+
+This project has been built as an installable Android APK using EAS Build and tested on a physical Android device.
+
+Build details:
+
+* Platform: Android
+* Build profile: preview
+* SDK version: 54.0.0
+* App version: 1.0.0
+* Build type: APK
+
 ## Current Status
 
-This project is a functional MVP scientific calculator. The main calculator logic, UI, history feature, and tests are complete.
+This project is a functional MVP scientific calculator. The main calculator logic, UI, reusable components, history feature, tests, and Android APK build are complete.
 
 ## Future Improvements
 
@@ -101,5 +130,4 @@ This project is a functional MVP scientific calculator. The main calculator logi
 * Add nth-root support
 * Add fraction mode
 * Add UI animations
-* Add screenshots to the README
-* Build an Android APK using EAS Build
+* Publish APK through a GitHub Release
