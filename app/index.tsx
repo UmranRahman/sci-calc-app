@@ -5,7 +5,7 @@ import {
   initialCalculatorState,
 } from "@/src/features/calculator/calculatorEngine";
 import { useState } from "react";
-import { SafeAreaView, StyleSheet, View } from "react-native";
+import { SafeAreaView, ScrollView, StyleSheet, View } from "react-native";
 
 const calculatorButtons = [
   ["sin", "cos", "tan", "log"],
@@ -28,17 +28,22 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView style={styles.screen}>
-      <View style={styles.calculator}>
-        <CalculatorDisplay
-          displayValue={calculatorState.displayValue}
-          history={calculatorState.history}
-        />
+      <ScrollView
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={styles.calculator}>
+          <CalculatorDisplay
+            displayValue={calculatorState.displayValue}
+            history={calculatorState.history}
+          />
 
-        <CalculatorKeypad
-          buttons={calculatorButtons}
-          onButtonPress={handleButtonPress}
-        />
-      </View>
+          <CalculatorKeypad
+            buttons={calculatorButtons}
+            onButtonPress={handleButtonPress}
+          />
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -48,10 +53,16 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#7F1D1D",
   },
+  scrollContent: {
+    flexGrow: 1,
+    backgroundColor: "#B91C1C",
+  },
   calculator: {
-    flex: 1,
-    padding: 16,
-    justifyContent: "flex-end",
+    flexGrow: 1,
+    paddingTop: 24,
+    paddingHorizontal: 16,
+    paddingBottom: 40,
+    justifyContent: "space-between",
     backgroundColor: "#B91C1C",
     borderWidth: 6,
     borderColor: "#450A0A",
